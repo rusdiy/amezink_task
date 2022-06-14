@@ -2,16 +2,17 @@ package database
 
 import (
 	"database/sql"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	username string = "root"
-	password string = ""
-	host     string = "localhost"
-	database string = "mezink"
-	port     string = "3306"
+var (
+	username string = os.Getenv("DB_USER")
+	password string = os.Getenv("DB_PASS")
+	host     string = os.Getenv("DB_HOST")
+	database string = os.Getenv("DB_NAME")
+	port     string = os.Getenv("DB_PORT")
 )
 
 func MySQLConn(dbase *Database) error {
