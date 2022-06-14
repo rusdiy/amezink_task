@@ -13,27 +13,35 @@ import (
 )
 
 func main() {
-	dbase, err := database.MySQLConn()
+	// Initializing database connection
+	var dbase database.Database
+	err := database.MySQLConn(&dbase)
 	if err != nil {
 		fmt.Println(err)
 	}
 
+	// Initializing The Repository
 	recordRepository := repository.RecordRepository{
-		DB: *dbase,
+		DB: dbase,
 	}
 
+	// Initializing the Service
 	recordService := service.RecordService{
 		RecordRepo: recordRepository,
 	}
 
+	// Initializing the Controller
 	recordController := controller.RecordController{
 		RecordService: recordService,
 	}
 
-
+	// Initializing the Mux Router
 	router := mux.NewRouter()
+
+	// Routing the Endpoint to the Controller
 	router.HandleFunc("/marks", recordController.GetMarks).Methods("GET")
-	
+
+	// Console Log and Start Listening
 	fmt.Println("Listening to http://localhost:40004")
 	log.Fatal(http.ListenAndServe("localhost:40004", router))
 }

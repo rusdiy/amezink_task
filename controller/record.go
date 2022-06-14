@@ -14,6 +14,7 @@ type RecordController struct {
 }
 
 func (rc RecordController) GetMarks(w http.ResponseWriter, r *http.Request) {
+	// Guard Clause for the input
 	minCount, err := strconv.Atoi(r.FormValue("minCount"))
 	if err != nil {
 		utils.SendError(w, err, http.StatusBadRequest)

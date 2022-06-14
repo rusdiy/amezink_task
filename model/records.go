@@ -10,9 +10,9 @@ type Record struct {
 }
 
 type RecordResponses struct {
-	ID         int64  `json:"id"`
-	CreatedAt  string `json:"created_at"`
-	TotalMarks int    `json:"totalMarks"`
+	ID         int64     `json:"id"`
+	CreatedAt  time.Time `json:"created_at"`
+	TotalMarks int       `json:"totalMarks"`
 }
 
 type RecordRequest struct {

@@ -14,10 +14,12 @@ const (
 	port     string = "3306"
 )
 
-func MySQLConn() (*Database, error) {
-	db, err := sql.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+database)
+func MySQLConn(dbase *Database) error {
+	db, err := sql.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+database+"?parseTime=true")
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &Database{MySQL: db}, nil
+
+	(*dbase).MySQL = db
+	return nil
 }
