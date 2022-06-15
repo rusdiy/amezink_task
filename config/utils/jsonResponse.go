@@ -1,5 +1,9 @@
 package utils
 
+/*
+	Utility functions for sending back response in a formmatted way.
+*/
+
 import (
 	"encoding/json"
 	"net/http"

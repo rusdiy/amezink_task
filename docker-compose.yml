@@ -1,0 +1,62 @@
+# DOCKER COMPOSE
+
+version: "3.8"
+services:
+  # The Go Apps
+  app:
+    build: .
+    container_name: amezink_app
+    ports:
+      - "80:8080"
+    restart: on-failure
+    environment: 
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      - mysql
+    networks:
+      - amezink_network
+
+  # The Database
+  mysql:
+    image: mysql:latest
+    container_name: amezink_mysql
+    ports: 
+      - 3306:3306
+    environment: 
+      - MYSQL_ROOT_HOST=${DB_HOST} 
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+    volumes:
+      - database_mysql:/var/lib/mysql
+    networks:
+      - amezink_network
+  
+  # MySQL Client just in case
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    depends_on:
+      - mysql
+    environment:
+      - PMA_HOST=${DB_HOST}
+      - PMA_USER=${DB_USER}
+      - PMA_PORT=${DB_PORT}
+      - PMA_PASSWORD=${DB_PASS}
+    ports:
+      - 9090:80
+    restart: always
+    networks:
+      - amezink_network
+
+volumes:
+  database_mysql:
+
+networks:
+  amezink_network:
+    driver: bridge

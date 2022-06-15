@@ -42,6 +42,6 @@ func main() {
 	router.HandleFunc("/marks", recordController.GetMarks).Methods("GET")
 
 	// Console Log and Start Listening
-	fmt.Println("Listening to http://localhost:40004")
-	log.Fatal(http.ListenAndServe("localhost:40004", router))
+	fmt.Println("Listening to http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
